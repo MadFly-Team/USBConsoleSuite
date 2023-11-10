@@ -1,8 +1,7 @@
 # make sure the minimum cmake version is compatible with your compiler
 cmake_minimum_required(VERSION 3.9.1)
 
-# set a project name and version number
-project(CabrigDaatGenerator VERSION 0.0.1)
+project(USBHIDConsoleSuite)
 
 # set C Make to use the C++20 Language version
 set(CMAKE_CXX_STANDARD 20)
@@ -25,7 +24,7 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add(
-    BlackstarCabrig
+    hidapi
     PREFIX ${CMAKE_BINARY_DIR}/HIDAPI
     GIT_REPOSITORY https://github.com/libusb/hidapi.git
     TIMEOUT 10
@@ -36,16 +35,9 @@ ExternalProject_Add(
     LOG_DOWNLOAD ON
 )
 
-# Expose required variable (DOCTEST_INCLUDE_DIR) to parent scope
-ExternalProject_Get_Property(doctest source_dir)
-set(DOCTEST_INCLUDE_DIR ${source_dir}/doctest CACHE INTERNAL "Path to include folder for doctest")
-ExternalProject_Get_Property(BlackstarCabrig source_dir)
-set(DCABRIG_INCLUDE_DIR ${source_dir}/BlackstarCabrig CACHE INTERNAL "Path to include folder for doctest")
-
-
 # add the subdirectories for the library and testing framework being used
 add_subdirectory(HIDAPI)
-add_subdirectory(USBConsoleController)
+add_subdirectory(USBHIDConsoleApplication)
 
 # add doctest globally
 include_directories(${DOCTEST_INCLUDE_DIR})
