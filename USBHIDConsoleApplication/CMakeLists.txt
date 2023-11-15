@@ -1,4 +1,4 @@
-# make sure the minimum cmake version is compatible with your compiler
+	# make sure the minimum cmake version is compatible with your compiler
 cmake_minimum_required(VERSION 3.9.1)
 
 # set a project name
@@ -13,6 +13,8 @@ find_package(Git REQUIRED)
 file(GLOB_RECURSE APP_SOURCE_FILES CONFIGURE_DEPENDS "inc/*.h" "src/*.cpp" )
 
 set(HIDAPI_HIDTEST_TARGETS)
+set(CMAKE_BUILD_TYPE Debug)
+
 add_executable(USBHIDConsoleApplication ${APP_SOURCE_FILES})
 target_link_libraries(USBHIDConsoleApplication
   PRIVATE hidapi

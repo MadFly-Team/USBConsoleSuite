@@ -1,0 +1,20 @@
+{
+  "configurations": {
+    "my_config": {
+      "adapter": "vscode-cpptools",
+      "configuration": {
+        "name": "Launch",
+        "type": "cppvsdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/build/USBHIDConsoleApplication/Debug/USBHIDConsoleApplication.exe",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${workspaceFolder}/build/USBHIDConsoleApplication/Debug/",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "gdb"
+      }
+    }
+  },
+  "version": "0.2.0"
+}
