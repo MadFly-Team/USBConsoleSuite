@@ -1,11 +1,11 @@
 
 /**----------------------------------------------------------------------------
 
-    @file 		main.cpp
+    @file       main.cpp
     @defgroup   USBHIDConsoleApplication USB HID Console Application
     @brief      Main entry for the USB tool.
 
-    @copyright	Blackstar Amplification 2023
+    @copyright  Blackstar Amplification 2023
 
 Notes:
 
@@ -28,9 +28,6 @@ Version:
 #include <string.h>
 #include <stdlib.h>
 
-// HIDAPI includes
-#include "../inc/hidapi.h"
-
 // Headers needed for sleeping.
 #ifdef _WIN32
 #include <windows.h>
@@ -38,20 +35,19 @@ Version:
 #include <unistd.h>
 #endif
 
-#include "../inc/USB-HID.h"
+#include "../../USBHIDCOnsoleLibrary/inc/Support_Defines.h"
+#include "../../USBHIDConsoleLibrary/inc/Modules/USB/USB-HID.h"
 
 //-----------------------------------------------------------------------------
 // Defines
 //-----------------------------------------------------------------------------
-
-#define DEFAULT_VENDOR_ID  ( 0x27D4 )
-#define DEFAULT_PRODUCT_ID ( 0xCF )
 
 //-----------------------------------------------------------------------------
 // Namespace
 //-----------------------------------------------------------------------------
 
 using namespace USB_HID;
+using namespace Support;
 
 //-----------------------------------------------------------------------------
 // Forward References
@@ -66,15 +62,20 @@ void main_CreateMessage( HIDMESSAGE& msg, uint8_t nID, uint8_t nPID, uint8_t nRe
 /**---------------------------------------------------------------------------
     @ingroup    USBHIDConsoleApplication USB HID Console Application
     @brief      The main entry point
+    @param      argc - The number of command line arguments
+    @param      argv - The command line arguments
+    @return     int  - The exit code
   --------------------------------------------------------------------------*/
 int main( int argc, char* argv[] )
 {
-    // not using the parameters
-    (void)argc;
-    (void)argv;
+    // not currently using the parameters
+    NOT_USED( argc );
+    NOT_USED( argv );
 
-    USBHID     usb;
-    HIDMESSAGE msg;
+    // Test section -----------------------------------------------------------
+    // Simple test for connecting to the USB device and sending a message
+    USBHID     usb; //!< USB HID object
+    HIDMESSAGE msg; //!< USB HID message
 
     // Init and connect to the device
     usb.SetDevice( DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID );
@@ -84,11 +85,9 @@ int main( int argc, char* argv[] )
         std::cout << "Failed to connect USB" << std::endl;
 
     // recieve and send HID messages
-    // Test section...
     if ( usb.IsConnected() )
     {
-        std::cout << "Connected to unit [VID: " << usb.GetVID() << ",PID: " << usb.GetPID()
-                  << "]" << std::endl;
+        std::cout << "Connected to unit [VID: 0x" << std::hex << usb.GetVID() << ",PID: 0x" << usb.GetPID() << "]" << std::dec << std::endl;
         // send the handshake
         main_CreateMessage( msg, 0x81, 0, 0, 3, new byte[ 3 ]{ 0x00, 0x09, 0x04 } );
         usb.Send( msg );
@@ -98,8 +97,8 @@ int main( int argc, char* argv[] )
         Sleep( 3000 );
         usb.Read( msg );
 
-        std::cout << "HID: Received: " << msg.Header.ID << " " << msg.Header.PID << " " << msg.Header.Res << " " << msg.Header.Len
-                  << std::endl;
+        std::cout << std::hex << "HID: Received:  0x" << msg.Header.ID << " 0x" << msg.Header.PID << " 0x" << msg.Header.Res << " 0x"
+                  << msg.Header.Len << std::dec << std::endl;
 
         main_CreateMessage( msg, 0x04, 0, 0, 0, nullptr );
         usb.Send( msg );
@@ -110,6 +109,7 @@ int main( int argc, char* argv[] )
 
         std::cout << "Finished, terminating." << std::endl;
     }
+    // end test section -------------------------------------------------------
 
     // Disconnect and deinit the device
     if ( usb.Disconnect() == false )

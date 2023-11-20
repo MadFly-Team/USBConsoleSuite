@@ -37,7 +37,9 @@ ExternalProject_Add(
 
 # add the subdirectories for the library and testing framework being used
 add_subdirectory(HIDAPI)
+add_subdirectory(USBHIDConsoleLibrary)
 add_subdirectory(USBHIDConsoleApplication)
+add_subdirectory(USBHIDConsoleUnitTests)
 
 # add doctest globally
 include_directories(${DOCTEST_INCLUDE_DIR})

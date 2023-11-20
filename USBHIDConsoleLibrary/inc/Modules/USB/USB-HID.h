@@ -24,7 +24,7 @@ Version:
 #include <cinttypes>
 
 // HIDAPI includes
-#include "../inc/hidapi.h"
+#include "../../hidapi.h"
 
 //-----------------------------------------------------------------------------
 // Namespace
