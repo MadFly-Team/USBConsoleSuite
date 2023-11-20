@@ -157,12 +157,12 @@ bool USBHID::Disconnect()
     @param      msg - The HID message
     @return     bool - true if successful
   --------------------------------------------------------------------------*/
-bool USBHID::Send( const HIDMESSAGE& msg )
+bool USBHID::Send( const HID_MESSAGE& msg )
 {
     bool bRet = false;
     if ( mIsInitialized == true && mIsConnected == true )
     {
-        bRet = hid_write( mHandle, msg.Data, sizeof( HIDMESSAGE ) ) == 0;
+        bRet = hid_write( mHandle, msg.Data, sizeof( HID_MESSAGE ) ) == 0;
     }
 
     return bRet;
@@ -174,14 +174,14 @@ bool USBHID::Send( const HIDMESSAGE& msg )
     @param      msg - The HID message
     @return     bool - true if successful
   --------------------------------------------------------------------------*/
-bool USBHID::Read( HIDMESSAGE& msg )
+bool USBHID::Read( HID_MESSAGE& msg )
 {
     bool bRet = false;
 
     if ( mIsInitialized == true && mIsConnected == true )
     {
         hid_set_nonblocking( mHandle, eHIDRead_Blocking );
-        if ( hid_read( mHandle, msg.Data, sizeof( HIDMESSAGE ) ) == sizeof( HIDMESSAGE ) )
+        if ( hid_read( mHandle, msg.Data, sizeof( HID_MESSAGE ) ) == sizeof( HID_MESSAGE ) )
         {
             bRet = true;
         }
@@ -197,13 +197,13 @@ bool USBHID::Read( HIDMESSAGE& msg )
     @param      msg - The HID message, set if returned true
     @return     bool - true if  message was recieved
   --------------------------------------------------------------------------*/
-bool USBHID::Poll( HIDMESSAGE& msg )
+bool USBHID::Poll( HID_MESSAGE& msg )
 {
     bool bRet = false;
 
     if ( mIsInitialized == true && mIsConnected == true )
     {
-        if ( hid_read( mHandle, msg.Data, sizeof( HIDMESSAGE ) ) == sizeof( HIDMESSAGE ) )
+        if ( hid_read( mHandle, msg.Data, sizeof( HID_MESSAGE ) ) == sizeof( HID_MESSAGE ) )
         {
             bRet = true;
         };

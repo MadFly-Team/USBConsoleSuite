@@ -1,7 +1,7 @@
 /**----------------------------------------------------------------------------
 
     @file       USBHIDMessage.h
-    @defgroup   USBHIDConsoleApplication USB HID Console Application
+    @defgroup   USBHIDConsoleLibrary USB HID Console Library
     @brief      USB HID Message definitions for the USB tool.
 
     @copyright  Blackstar Amplification 2023
@@ -24,7 +24,7 @@ namespace USB_HID
 {
 
 //-----------------------------------------------------------------------------
-// Singleton class USAHIDMessage
+// Singleton class USBHIDMessage
 // ----------------------------------------------------------------------------
 
 class USBHIDMessage

@@ -25,10 +25,10 @@ namespace Support
 
 //-----------------------------------------------------------------------------
 
-#define DEFAULT_VENDOR_ID  ( 0x27D4 )
-#define DEFAULT_PRODUCT_ID ( 0xCF )
+#define DEFAULT_VENDOR_ID  ( 0x27D4 ) //!< Vendor ID for the USB device
+#define DEFAULT_PRODUCT_ID ( 0xCF )   //!< Product ID for the USB device
 
-#define NOT_USED( x )      ( (void)( x ) )
+#define NOT_USED( x )      ( (void)( x ) ) //!< Macro to remove unused variable warnings
 
 //-----------------------------------------------------------------------------
 

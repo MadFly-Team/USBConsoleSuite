@@ -53,7 +53,7 @@ using namespace Support;
 // Forward References
 //-----------------------------------------------------------------------------
 
-void main_CreateMessage( HIDMESSAGE& msg, uint8_t nID, uint8_t nPID, uint8_t nRes, uint8_t nLen, uint8_t* pData );
+void main_CreateMessage( HID_MESSAGE& msg, uint8_t nID, uint8_t nPID, uint8_t nRes, uint8_t nLen, uint8_t* pData );
 
 //-----------------------------------------------------------------------------
 // External Functionality
@@ -74,8 +74,8 @@ int main( int argc, char* argv[] )
 
     // Test section -----------------------------------------------------------
     // Simple test for connecting to the USB device and sending a message
-    USBHID     usb; //!< USB HID object
-    HIDMESSAGE msg; //!< USB HID message
+    USBHID      usb; //!< USB HID object
+    HID_MESSAGE msg; //!< USB HID message
 
     // Init and connect to the device
     usb.SetDevice( DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID );
@@ -133,7 +133,7 @@ int main( int argc, char* argv[] )
     @param      nLen  - The new message length
     @param      pData - The new message data
       --------------------------------------------------------------------------*/
-void main_CreateMessage( HIDMESSAGE& msg, uint8_t nID, uint8_t nPID, uint8_t nRes, uint8_t nLen, uint8_t* pData )
+void main_CreateMessage( HID_MESSAGE& msg, uint8_t nID, uint8_t nPID, uint8_t nRes, uint8_t nLen, uint8_t* pData )
 {
     // completely erase the message structure
     memset( msg.Data, 0, sizeof( msg.Data ) );

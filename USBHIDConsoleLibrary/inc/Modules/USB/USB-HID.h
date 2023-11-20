@@ -1,7 +1,7 @@
 /**----------------------------------------------------------------------------
 
     @file       USB-HID.h
-    @defgroup   USBHIDConsoleApplication USB HID Console USBHIDConsoleApplication
+    @defgroup   USBHIDConsoleLibraryUSB HID Console USBHIDConsoleLibrary
     @brief      USB HID Console Functionality
 
     @copyright  Blackstar Amplification 2023
@@ -37,42 +37,46 @@ namespace USB_HID
 // Defines
 //-----------------------------------------------------------------------------
 
-#define HIDMSGHEADERLEN ( 5 )
-#define HIDMSGDATALEN   ( 60 )
-#define HIDMSGLEN       ( HIDMSGHEADERLEN + HIDMSGDATALEN )
+#define HID_MSG_HEADER_LEN ( 5 )                                     //!< HID Message Header length
+#define HID_MSG_DATA_LEN   ( 60 )                                    //!< HID Message Data length
+#define HID_MSG_LEN        ( HID_MSG_HEADER_LEN + HID_MSG_DATA_LEN ) //!< HID Message length
 
 //-----------------------------------------------------------------------------
-// Class definitions
+// Class definition
 //-----------------------------------------------------------------------------
 
-union HIDMESSHEADER
+/**---------------------------------------------------------------------------
+    @ingroup    USBHIDConsoleLibraryUSB HID Console Library
+    @brief      HID MESSAGE Header structure
+  --------------------------------------------------------------------------*/
+union HID_MSG_HEADER
 {
     struct
     {
         uint8_t ReportNum; //!< Internal use, will be overwritten
-        uint8_t ID;        //!< Message IsConnected
+        uint8_t ID;        //!< Message ID
         uint8_t PID;       //!< Product
         uint8_t Res;       //!< Reserved
         uint8_t Len;       //!< Length
     };
 
-    uint8_t Data[ HIDMSGHEADERLEN ];
+    uint8_t Data[ HID_MSG_HEADER_LEN ];
 };
 
-union HIDMESSAGE
+union HID_MESSAGE
 {
     struct
     {
-        HIDMESSHEADER Header;               //!< Header structure
-        uint8_t       Msg[ HIDMSGDATALEN ]; //!< HID message buffer
+        HID_MSG_HEADER Header;                  //!< Header structure
+        uint8_t        Msg[ HID_MSG_DATA_LEN ]; //!< HID message buffer
     };
 
-    uint8_t Data[ HIDMSGLEN ]; //!< Raw HID Data
+    uint8_t Data[ HID_MSG_LEN ]; //!< Raw HID Data
 };
 
 /**---------------------------------------------------------------------------
-    @ingroup    USBHIDConsoleApplication USB HID Console Application
-    @brief      MAin USB Console class
+    @ingroup    USBHIDConsoleLibraryUSB HID Console Library
+    @brief      Main USB Console class
   --------------------------------------------------------------------------*/
 class USBHID
 {
@@ -95,7 +99,7 @@ class USBHID
   public:
     // constructors etc
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Basic Constructor
       --------------------------------------------------------------------------*/
     USBHID()
@@ -108,7 +112,7 @@ class USBHID
         mHandle        = nullptr;
     }
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Basic destructor
       --------------------------------------------------------------------------*/
     ~USBHID()
@@ -117,7 +121,7 @@ class USBHID
 
     // Getters and setters
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Set the Product ID
         @param      pid - the new Product ID
       --------------------------------------------------------------------------*/
@@ -126,7 +130,7 @@ class USBHID
         mPID = pid;
     }
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Set the Vendor ID
         @param      vid - the new Vendor ID
       --------------------------------------------------------------------------*/
@@ -135,7 +139,7 @@ class USBHID
         mVID = vid;
     }
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      returns the Product ID
         @return     pid - the product ID
       --------------------------------------------------------------------------*/
@@ -144,7 +148,7 @@ class USBHID
         return mPID;
     }
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      returns the vender ID
         @return     vid - the new venor ID
       --------------------------------------------------------------------------*/
@@ -154,7 +158,7 @@ class USBHID
     }
 
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Returns if the USBHID is initialized
         @return     bool - true if initialized
       --------------------------------------------------------------------------*/
@@ -163,7 +167,7 @@ class USBHID
         return mIsInitialized;
     }
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Returns if the USBHID is connected to the device
         @return     bool - true if connected
       --------------------------------------------------------------------------*/
@@ -172,7 +176,7 @@ class USBHID
         return mIsConnected;
     }
     /**---------------------------------------------------------------------------
-        @ingroup    USBHIDConsoleApplication USB HID Console Application
+        @ingroup    USBHIDConsoleLibrary USB HID Console Library
         @brief      Sets the Device VID and PID
         @param      vid - the vendor ID
         @param      pid - the product ID
@@ -189,9 +193,9 @@ class USBHID
     bool Connect();
     bool Disconnect();
 
-    bool Send( const HIDMESSAGE& msg );
-    bool Read( HIDMESSAGE& msg );
-    bool Poll( HIDMESSAGE& msg );
+    bool Send( const HID_MESSAGE& msg );
+    bool Read( HID_MESSAGE& msg );
+    bool Poll( HID_MESSAGE& msg );
 };
 
 //-----------------------------------------------------------------------------
